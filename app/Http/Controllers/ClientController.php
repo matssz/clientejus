@@ -54,7 +54,8 @@ class ClientController extends Controller
     public function show(Request $request, int $cliente): View
     {
         return view('clients.show', [
-            'client' => $this->clientForUser($request, $cliente),
+            'client' => $this->clientForUser($request, $cliente)
+                ->load(['legalCases' => fn ($query) => $query->with('caseType')->latest()]),
         ]);
     }
 

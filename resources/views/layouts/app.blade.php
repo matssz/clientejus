@@ -41,6 +41,12 @@
                                 href="{{ route('clientes.index') }}"
                             >Clientes</a>
                         </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link {{ request()->routeIs('casos.*') ? 'active' : '' }}"
+                                href="{{ route('casos.index') }}"
+                            >Casos</a>
+                        </li>
                     </ul>
 
                     <div class="d-flex align-items-md-center gap-3 py-3 py-md-0">
@@ -59,6 +65,10 @@
         <div class="container">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">{{ session('status') }}</div>
+            @endif
+
+            @if (session('warning'))
+                <div class="alert alert-warning" role="alert">{{ session('warning') }}</div>
             @endif
 
             @yield('content')

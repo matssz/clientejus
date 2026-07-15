@@ -75,4 +75,43 @@
             </div>
         @endif
     </section>
+
+    <section class="content-section">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="h5 mb-0">Casos recentes</h2>
+            <a href="{{ route('casos.index') }}">Ver todos</a>
+        </div>
+
+        @if ($recentCases->isEmpty())
+            <div class="empty-message">
+                <p class="mb-1 fw-semibold">Nenhum caso cadastrado.</p>
+                <p class="text-secondary mb-0">Crie um caso para acompanhar o andamento do atendimento.</p>
+            </div>
+        @else
+            <div class="table-responsive border rounded-2 bg-white">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Caso</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($recentCases as $case)
+                            <tr>
+                                <td class="fw-semibold">{{ $case->title }}</td>
+                                <td>{{ $case->client->name }}</td>
+                                <td><x-status-badge :status="$case->status" :label="$case->statusLabel()" /></td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('casos.show', $case) }}">Ver</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
 @endsection

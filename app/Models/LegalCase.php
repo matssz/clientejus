@@ -25,6 +25,27 @@ class LegalCase extends Model
 
     public const STATUS_FINALIZADO = 'finalizado';
 
+    /**
+     * @return array<string, string>
+     */
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_NOVO_ATENDIMENTO => 'Novo atendimento',
+            self::STATUS_DOCUMENTOS_PENDENTES => 'Documentos pendentes',
+            self::STATUS_EM_ANALISE => 'Em análise',
+            self::STATUS_PRONTO_PARA_PROTOCOLO => 'Pronto para protocolo',
+            self::STATUS_PROTOCOLADO => 'Protocolado',
+            self::STATUS_AGUARDANDO_RETORNO => 'Aguardando retorno',
+            self::STATUS_FINALIZADO => 'Finalizado',
+        ];
+    }
+
+    public function statusLabel(): string
+    {
+        return self::statuses()[$this->status] ?? $this->status;
+    }
+
     protected $fillable = [
         'user_id',
         'client_id',

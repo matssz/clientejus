@@ -37,6 +37,7 @@ Escopo fechado da primeira versao:
 - [Backlog MVP](docs/backlog-mvp.md)
 - [Autenticação explicada](docs/autenticacao.md)
 - [CRUD de clientes explicado](docs/clientes-crud.md)
+- [Casos, status e WhatsApp](docs/casos-core.md)
 
 ## Como Rodar Localmente
 
@@ -56,6 +57,12 @@ Gere a chave:
 
 ```bash
 php artisan key:generate
+```
+
+Execute as migrations e cadastre os tipos de caso:
+
+```bash
+php artisan migrate --seed
 ```
 
 Suba o servidor:

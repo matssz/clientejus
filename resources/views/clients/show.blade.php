@@ -11,7 +11,10 @@
             <h1 class="h3 mb-1">{{ $client->name }}</h1>
             <p class="text-secondary mb-0">Cadastrado em {{ $client->created_at->format('d/m/Y') }}</p>
         </div>
-        <a class="btn btn-primary" href="{{ route('clientes.edit', $client) }}">Editar cliente</a>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a class="btn btn-outline-primary" href="{{ route('casos.create', ['client_id' => $client->id]) }}">Novo caso</a>
+            <a class="btn btn-primary" href="{{ route('clientes.edit', $client) }}">Editar cliente</a>
+        </div>
     </div>
 
     @error('delete')
@@ -36,6 +39,42 @@
             <dt class="col-sm-3">CPF/CNPJ</dt>
             <dd class="col-sm-9">{{ $client->document ?: 'Não informado' }}</dd>
         </dl>
+    </section>
+
+    <section class="content-section mb-4">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="h5 mb-0">Casos vinculados</h2>
+            <a href="{{ route('casos.create', ['client_id' => $client->id]) }}">Novo caso</a>
+        </div>
+
+        @if ($client->legalCases->isEmpty())
+            <p class="text-secondary mb-0">Nenhum caso cadastrado para este cliente.</p>
+        @else
+            <div class="table-responsive border rounded-2 bg-white">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Caso</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($client->legalCases as $case)
+                            <tr>
+                                <td class="fw-semibold">{{ $case->title }}</td>
+                                <td>{{ $case->caseType?->name ?: 'Não informado' }}</td>
+                                <td><x-status-badge :status="$case->status" :label="$case->statusLabel()" /></td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('casos.show', $case) }}">Ver</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </section>
 
     <section class="content-section client-details mb-4">

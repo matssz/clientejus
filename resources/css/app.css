@@ -71,6 +71,18 @@ body {
     gap: 0.75rem;
 }
 
+.case-filters {
+    display: grid;
+    grid-template-columns: minmax(220px, 2fr) minmax(200px, 1fr) auto auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.badge {
+    white-space: normal;
+    text-align: left;
+}
+
 .page-narrow {
     width: min(100%, 760px);
     margin: 0 auto;
@@ -99,6 +111,10 @@ body {
     }
 
     .search-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .case-filters {
         grid-template-columns: 1fr;
     }
 
