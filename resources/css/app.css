@@ -83,6 +83,75 @@ body {
     text-align: left;
 }
 
+.progress {
+    height: 1.25rem;
+    background: #e4e8ec;
+}
+
+.checklist-list {
+    overflow: hidden;
+    border: 1px solid #dfe3e8;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+
+.checklist-row {
+    padding: 1rem;
+}
+
+.checklist-row + .checklist-row {
+    border-top: 1px solid #dfe3e8;
+}
+
+.checklist-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.75rem;
+}
+
+.checklist-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.15rem;
+}
+
+.min-width-0 {
+    min-width: 0;
+}
+
+.document-upload {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-left: 2rem;
+}
+
+.document-links {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-left: 2rem;
+}
+
+.document-link-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.document-tools {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.document-tool {
+    min-width: 0;
+}
+
 .page-narrow {
     width: min(100%, 760px);
     margin: 0 auto;
@@ -125,5 +194,21 @@ body {
 
     .danger-zone .btn {
         width: 100%;
+    }
+
+    .document-upload,
+    .document-tools {
+        grid-template-columns: 1fr;
+    }
+
+    .document-upload,
+    .document-links {
+        padding-left: 0;
+    }
+
+    .document-link-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
     }
 }

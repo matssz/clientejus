@@ -38,6 +38,7 @@ Escopo fechado da primeira versao:
 - [Autenticação explicada](docs/autenticacao.md)
 - [CRUD de clientes explicado](docs/clientes-crud.md)
 - [Casos, status e WhatsApp](docs/casos-core.md)
+- [Fluxo completo de documentos](docs/fluxo-documentos.md)
 
 ## Como Rodar Localmente
 

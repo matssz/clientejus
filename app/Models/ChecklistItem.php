@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChecklistItem extends Model
 {
@@ -30,5 +31,10 @@ class ChecklistItem extends Model
     public function legalCase(): BelongsTo
     {
         return $this->belongsTo(LegalCase::class);
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(CaseDocument::class);
     }
 }

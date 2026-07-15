@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LegalCaseRequest;
 use App\Models\CaseType;
 use App\Models\LegalCase;
+use App\Services\CaseChecklistService;
+use App\Services\WhatsAppLink;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class LegalCaseController extends Controller
 {
+    public function __construct(
+        private readonly CaseChecklistService $checklistService,
+        private readonly WhatsAppLink $whatsAppLink,
+    ) {}
+
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search'));
@@ -19,6 +26,12 @@ class LegalCaseController extends Controller
         $cases = $request->user()
             ->legalCases()
             ->with(['client', 'caseType'])
+            ->withCount([
+                'checklistItems as required_document_count' => fn ($query) => $query->where('is_required', true),
+                'checklistItems as completed_document_count' => fn ($query) => $query
+                    ->where('is_required', true)
+                    ->where('is_completed', true),
+            ])
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
                     $query
@@ -63,6 +76,8 @@ class LegalCaseController extends Controller
             ->legalCases()
             ->create($this->normalizedData($request->validated(), true));
 
+        $this->checklistService->generateDefaults($case);
+
         return redirect()
             ->route('casos.show', $case)
             ->with('status', 'Caso cadastrado com sucesso.');
@@ -70,8 +85,23 @@ class LegalCaseController extends Controller
 
     public function show(Request $request, int $caso): View
     {
+        $case = $this->caseForUser($request, $caso)->load([
+            'client',
+            'caseType',
+            'checklistItems.documents',
+            'documents.checklistItem',
+        ]);
+        $requiredItems = $case->checklistItems->where('is_required', true);
+        $completedItems = $requiredItems->where('is_completed', true)->count();
+        $progress = $requiredItems->isEmpty()
+            ? 0
+            : (int) round(($completedItems / $requiredItems->count()) * 100);
+
         return view('cases.show', [
-            'case' => $this->caseForUser($request, $caso)->load(['client', 'caseType']),
+            'case' => $case,
+            'requiredItemCount' => $requiredItems->count(),
+            'completedItemCount' => $completedItems,
+            'documentProgress' => $progress,
         ]);
     }
 
@@ -99,9 +129,9 @@ class LegalCaseController extends Controller
     {
         $case = $this->caseForUser($request, $caso);
 
-        if ($case->checklistItems()->exists() || $case->documents()->exists()) {
+        if ($case->documents()->exists()) {
             return back()->withErrors([
-                'delete' => 'Este caso possui documentos ou checklist e não pode ser excluído.',
+                'delete' => 'Este caso possui documentos e não pode ser excluído.',
             ]);
         }
 
@@ -115,17 +145,6 @@ class LegalCaseController extends Controller
     public function whatsapp(Request $request, int $caso): RedirectResponse
     {
         $case = $this->caseForUser($request, $caso)->load('client');
-        $phone = preg_replace('/\D+/', '', (string) $case->client->phone);
-
-        if ($phone === '') {
-            return back()->withErrors([
-                'whatsapp' => 'Cadastre o telefone do cliente antes de abrir o WhatsApp.',
-            ]);
-        }
-
-        if (in_array(strlen($phone), [10, 11], true)) {
-            $phone = "55{$phone}";
-        }
 
         $message = sprintf(
             'Olá, %s. Aqui é %s. Sobre o caso "%s", o status atual é: %s. Em caso de dúvidas, estou à disposição.',
@@ -135,7 +154,15 @@ class LegalCaseController extends Controller
             $case->statusLabel(),
         );
 
-        return redirect()->away('https://wa.me/'.$phone.'?text='.rawurlencode($message));
+        $url = $this->whatsAppLink->make($case->client->phone, $message);
+
+        if ($url === null) {
+            return back()->withErrors([
+                'whatsapp' => 'Cadastre o telefone do cliente antes de abrir o WhatsApp.',
+            ]);
+        }
+
+        return redirect()->away($url);
     }
 
     /**
