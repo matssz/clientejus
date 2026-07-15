@@ -30,7 +30,16 @@
                 <div class="collapse navbar-collapse" id="mainNavigation">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('dashboard') }}">Painel</a>
+                            <a
+                                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                                href="{{ route('dashboard') }}"
+                            >Painel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}"
+                                href="{{ route('clientes.index') }}"
+                            >Clientes</a>
                         </li>
                     </ul>
 

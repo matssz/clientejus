@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/painel', DashboardController::class)->name('dashboard');
+    Route::resource('clientes', ClientController::class);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

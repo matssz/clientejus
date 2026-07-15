@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'clientCount' => $user->clients()->count(),
+            'recentClients' => $user->clients()->latest()->limit(5)->get(),
             'caseCount' => $user->legalCases()->count(),
             'pendingDocumentCount' => $user->legalCases()
                 ->where('status', LegalCase::STATUS_DOCUMENTOS_PENDENTES)

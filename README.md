@@ -36,6 +36,7 @@ Escopo fechado da primeira versao:
 - [Modelagem inicial](docs/modelagem-inicial.md)
 - [Backlog MVP](docs/backlog-mvp.md)
 - [Autenticação explicada](docs/autenticacao.md)
+- [CRUD de clientes explicado](docs/clientes-crud.md)
 
 ## Como Rodar Localmente
 

@@ -25,7 +25,8 @@ body {
 }
 
 .auth-card,
-.stat-card {
+.stat-card,
+.form-card {
     border-radius: 0.5rem;
 }
 
@@ -50,8 +51,63 @@ body {
     border-left-color: #ffc107;
 }
 
+.content-section {
+    padding: 1.25rem 0;
+    border-top: 1px solid #dfe3e8;
+}
+
+.empty-message {
+    padding: 2rem;
+    border: 1px dashed #b9c1ca;
+    border-radius: 0.5rem;
+    background: #fff;
+    text-align: center;
+}
+
+.search-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 640px) auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.page-narrow {
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+.form-card {
+    border: 1px solid #dfe3e8;
+}
+
+.client-details dd:last-child {
+    margin-bottom: 0;
+}
+
+.danger-zone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #dc3545;
+}
+
 @media (max-width: 575.98px) {
     .auth-shell {
         margin-top: 0;
+    }
+
+    .search-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .danger-zone {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .danger-zone .btn {
+        width: 100%;
     }
 }
