@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CaseChecklistController;
 use App\Http\Controllers\CaseDocumentController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LegalCaseController;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/casos/{caso}/documentos/{documento}/download', [CaseDocumentController::class, 'download'])->name('casos.documents.download');
     Route::delete('/casos/{caso}/documentos/{documento}', [CaseDocumentController::class, 'destroy'])->name('casos.documents.destroy');
     Route::resource('casos', LegalCaseController::class);
+    Route::get('/contratos/{contrato}/documento', [ContractController::class, 'download'])->name('contratos.download');
+    Route::resource('contratos', ContractController::class);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

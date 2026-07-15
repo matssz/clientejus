@@ -1,6 +1,6 @@
 # ClienteJus
 
-SaaS LegalTech simples para advogados autonomos e pequenos escritorios organizarem clientes, casos, documentos, checklists e status de atendimento.
+SaaS LegalTech simples para advogados autonomos e pequenos escritorios organizarem clientes, casos, documentos, contratos, checklists e status de atendimento.
 
 ## Problema
 
@@ -19,6 +19,7 @@ Escopo fechado da primeira versao:
 5. Upload e organizacao de documentos.
 6. Status simples do caso.
 7. Botao de WhatsApp com mensagem pronta.
+8. Cadastro e controle de vigencia de contratos.
 
 ## Stack
 
@@ -39,6 +40,7 @@ Escopo fechado da primeira versao:
 - [CRUD de clientes explicado](docs/clientes-crud.md)
 - [Casos, status e WhatsApp](docs/casos-core.md)
 - [Fluxo completo de documentos](docs/fluxo-documentos.md)
+- [Contratos - Sprint 1](docs/contratos-sprint-1.md)
 
 ## Como Rodar Localmente
 

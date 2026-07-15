@@ -89,4 +89,9 @@ class LegalCase extends Model
     {
         return $this->hasMany(CaseDocument::class);
     }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
 }

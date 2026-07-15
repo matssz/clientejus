@@ -70,6 +70,42 @@
         <p class="mb-0 text-break">{{ $case->description ?: 'Nenhuma descrição cadastrada.' }}</p>
     </section>
 
+    <section class="content-section mb-4">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="h5 mb-0">Contratos vinculados</h2>
+            <a href="{{ route('contratos.create', ['case_id' => $case->id]) }}">Novo contrato</a>
+        </div>
+
+        @if ($case->contracts->isEmpty())
+            <p class="text-secondary mb-0">Nenhum contrato cadastrado para este caso.</p>
+        @else
+            <div class="table-responsive border rounded-2 bg-white">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Contrato</th>
+                            <th scope="col">Vencimento</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($case->contracts as $contract)
+                            <tr>
+                                <td class="fw-semibold">{{ $contract->title }}</td>
+                                <td>{{ $contract->expires_at?->format('d/m/Y') ?: 'Sem vencimento' }}</td>
+                                <td><x-contract-status-badge :status="$contract->status" :label="$contract->statusLabel()" /></td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('contratos.show', $contract) }}">Ver</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
+
     <section class="content-section mb-4" id="documentos">
         <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-3">
             <div>

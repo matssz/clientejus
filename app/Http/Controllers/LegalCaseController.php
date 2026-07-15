@@ -89,6 +89,7 @@ class LegalCaseController extends Controller
             'client',
             'caseType',
             'checklistItems.documents',
+            'contracts',
             'documents.checklistItem',
         ]);
         $requiredItems = $case->checklistItems->where('is_required', true);
@@ -129,9 +130,9 @@ class LegalCaseController extends Controller
     {
         $case = $this->caseForUser($request, $caso);
 
-        if ($case->documents()->exists()) {
+        if ($case->documents()->exists() || $case->contracts()->exists()) {
             return back()->withErrors([
-                'delete' => 'Este caso possui documentos e não pode ser excluído.',
+                'delete' => 'Este caso possui documentos ou contratos e não pode ser excluído.',
             ]);
         }
 

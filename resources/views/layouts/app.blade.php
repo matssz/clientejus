@@ -47,6 +47,12 @@
                                 href="{{ route('casos.index') }}"
                             >Casos</a>
                         </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link {{ request()->routeIs('contratos.*') ? 'active' : '' }}"
+                                href="{{ route('contratos.index') }}"
+                            >Contratos</a>
+                        </li>
                     </ul>
 
                     <div class="d-flex align-items-md-center gap-3 py-3 py-md-0">
