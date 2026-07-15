@@ -35,6 +35,7 @@ Escopo fechado da primeira versao:
 - [Roteiro de entrevista](docs/roteiro-entrevista.md)
 - [Modelagem inicial](docs/modelagem-inicial.md)
 - [Backlog MVP](docs/backlog-mvp.md)
+- [Autenticação explicada](docs/autenticacao.md)
 
 ## Como Rodar Localmente
 
